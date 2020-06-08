@@ -17,44 +17,47 @@ defmodule SecretHandshake do
   """
   @spec commands(code :: integer) :: list(String.t())
   def commands(code) do
-    list = handshake(code, 0b1)
-    list = list ++ handshake(code, 0b10)
-    list = list ++ handshake(code, 0b100)
-    list = list ++ handshake(code, 0b1000)
-    if (code &&& 0b10000) == 0b10000, do: Enum.reverse(list), else: list
+    list = []
+    list = [handshake(code, 0b1)|list]
+    list = [handshake(code, 0b10) | list]
+    list = [handshake(code, 0b100) | list]
+    list = [handshake(code, 0b1000) | list]
+    list = handshake(code, list, 0b10000)
+
+    Enum.filter(list, & !is_nil(&1))
   end
 
-  def handshake(code, _) when code == 0 do [] end
+  def handshake(code, _) when code == 0 do  end
 
-  def handshake(code, check) when check == 0b1 do
-    if (code &&& check) == check do
-      ["wink"]
-    else
-      []
+  def handshake(code, 0b1) do
+    if (code &&& 0b1) == 0b1 do
+      "wink"
     end
   end
 
-  def handshake(code, check) when check == 0b10 do
-    if (code &&& check) == check do
-      ["double blink"]
-    else
-      []
+  def handshake(code, 0b10) do
+    if (code &&& 0b10) == 0b10 do
+      "double blink"
     end
   end
 
-  def handshake(code, check) when check == 0b100 do
-    if (code &&& check) == check do
-      ["close your eyes"]
-    else
-      []
+  def handshake(code, 0b100)  do
+    if (code &&& 0b100) == 0b100 do
+      "close your eyes"
     end
   end
 
-  def handshake(code, check) when check == 0b1000 do
-    if (code &&& check) == check do
-      ["jump"]
+  def handshake(code, 0b1000)  do
+    if (code &&& 0b1000) == 0b1000 do
+      "jump"
+    end
+  end
+
+  def handshake(code,list, 0b10000)  do
+    if (code &&& 0b10000) == 0b10000 do
+      list
     else
-      []
+      Enum.reverse(list)
     end
   end
 
