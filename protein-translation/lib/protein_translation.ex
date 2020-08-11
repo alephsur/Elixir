@@ -27,7 +27,7 @@ defmodule ProteinTranslation do
     do_of_rna(rna, [])
   end
 
-  def do_of_rna(strand, result) do
+  def do_of_rna(strand, result) when strand !== "" do
 
     {codon, rest} = String.split_at(strand, 3)
     codon_proteine = of_codon(codon)
@@ -38,15 +38,11 @@ defmodule ProteinTranslation do
       {:ok, "STOP"} ->
         {:ok, result}
       {:ok, trans} ->
-        if rest === "" do
-          {:ok, result ++ [trans]}
-        else
-          do_of_rna(rest, result ++ [trans])
-        end
+        do_of_rna(rest, result ++ [trans])
     end
   end
 
-  def do_of_rna(trans, result) when trans === "" do
+  def do_of_rna(strand, result) when strand === "" do
     {:ok, result}
   end
 

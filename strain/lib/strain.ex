@@ -7,7 +7,19 @@ defmodule Strain do
   """
   @spec keep(list :: list(any), fun :: (any -> boolean)) :: list(any)
   def keep(list, fun) do
-    Enum.filter(list, fun)
+    filterKeep(list, fun, [])
+  end
+
+  defp filterKeep([], _fun, acc) do
+    Enum.reverse(acc)
+  end
+
+  defp filterKeep([head|tail], fun, acc) do
+    if fun.(head) do
+      filterKeep(tail, fun,  [head|acc])
+    else
+      filterKeep(tail, fun, acc)
+    end
   end
 
   @doc """
@@ -18,6 +30,18 @@ defmodule Strain do
   """
   @spec discard(list :: list(any), fun :: (any -> boolean)) :: list(any)
   def discard(list, fun) do
-    Enum.reject(list, fun)
+    filterDiscard(list, fun, list)
+  end
+
+  defp filterDiscard([], _fun, acc) do
+    acc
+  end
+
+  defp filterDiscard([head|tail], fun, acc) do
+    if fun.(head) do
+      filterDiscard(tail, fun,  acc -- [head])
+    else
+      filterDiscard(tail, fun, acc)
+    end
   end
 end
