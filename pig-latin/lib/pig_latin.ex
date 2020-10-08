@@ -54,7 +54,7 @@ defmodule PigLatin do
     end
   end
 
-  defp changeCharList(phrase, [head|tail], acc) do
+  defp changeCharList(phrase, [_head|tail], acc) do
     changeCharList(phrase, tail, acc + 1)
   end
 
@@ -62,7 +62,7 @@ defmodule PigLatin do
     true
   end
 
-  defp checkQchar([head|_]) do
+  defp checkQchar([_head|_]) do
     false
   end
 
@@ -70,7 +70,7 @@ defmodule PigLatin do
     true
   end
 
-  defp checkNetxCharConsonant([head|_]) do
+  defp checkNetxCharConsonant([_head|_]) do
     false
   end
 
