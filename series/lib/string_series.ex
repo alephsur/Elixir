@@ -5,15 +5,15 @@ defmodule StringSeries do
   return an empty list.
   """
   @spec slices(s :: String.t(), size :: integer) :: list(String.t())
-  def slices(_s, _size) do
-    split(to_charlist(_s), _size, [])
+  def slices(s, size) do
+    split(to_charlist(s), size, [])
   end
 
   defp split([],_,series) do
     Enum.reverse(series)
   end
 
-  defp split([head|tail], size, series) when size <= 0 do
+  defp split([_|_], size, _) when size <= 0 do
     []
   end
 
