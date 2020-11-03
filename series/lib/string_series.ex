@@ -6,24 +6,15 @@ defmodule StringSeries do
   """
   @spec slices(s :: String.t(), size :: integer) :: list(String.t())
   def slices(s, size) do
-    split(to_charlist(s), size, [])
+    slice_list(s, size)
   end
 
-  defp split([],_,series) do
-    Enum.reverse(series)
-  end
-
-  defp split([_|_], size, _) when size <= 0 do
+  defp slice_list(_, size) when size <= 0 do
     []
   end
 
-  defp split([head|tail], size, series) do
-    element = [head|tail] |> Enum.split(size) |> elem(0)
-
-    if length(element) < size do
-      split(tail, size,  series)
-    else
-      split(tail, size,  [to_string(element) | series])
-    end
+  defp slice_list(s, size) do
+    Enum.chunk_every(to_charlist(s), size, 1, :discard) |> Enum.map(fn v-> to_string(v) end)
   end
+
 end
