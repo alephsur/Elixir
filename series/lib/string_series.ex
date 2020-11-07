@@ -5,7 +5,7 @@ defmodule StringSeries do
   return an empty list.
   """
   @spec slices(s :: String.t(), size :: integer) :: list(String.t())
-  def slices(s, size) when size <= 0do
+  def slices(s, size) when size <= 0 do
       []
   end
 
