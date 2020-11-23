@@ -23,9 +23,25 @@ defmodule RunLengthEncoder do
 
   @spec decode(String.t()) :: String.t()
   def decode(string) do
-    String.split(test, ~r/[A-Z]/, include_captures: true, trim: true)
+    String.split(string, ~r/[[:alpha:][:blank:]]/, include_captures: true, trim: true)
+      |> transform_list([])
       |> Enum.chunk_every(2)
       |> Enum.map(fn [x,y] -> String.duplicate(y, String.to_integer(x)) end)
       |> Enum.join
   end
+
+  def transform_list([], list_result)  do
+    list_result
+  end
+
+  def transform_list([head|tail], list_result) do
+
+    if  Integer.parse(head) == :error do
+      transform_list(tail, list_result ++ ["1", head])
+    else
+      transform_list(tl(tail), list_result ++ [head, List.first(tail)])
+    end
+
+  end
+
 end
