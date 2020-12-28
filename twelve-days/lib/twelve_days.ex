@@ -36,7 +36,7 @@ defmodule TwelveDays do
   """
   @spec verse(number :: integer) :: String.t()
   def verse(number) do
-    printSentence(@ordinals[number], @verseList[number])
+    print_sentence(@ordinals[number], @verseList[number])
   end
 
   @doc """
@@ -45,7 +45,7 @@ defmodule TwelveDays do
   """
   @spec verses(starting_verse :: integer, ending_verse :: integer) :: String.t()
   def verses(starting_verse, ending_verse) do
-    printRange(starting_verse,ending_verse, "")
+    print_range(starting_verse,ending_verse, "")
   end
 
   @doc """
@@ -56,21 +56,21 @@ defmodule TwelveDays do
     verses(1, 12)
   end
 
-  defp printSentence(ordinal, verse) do
+  defp print_sentence(ordinal, verse) do
     "On the #{ordinal} day of Christmas my true love gave to me: #{verse}"
   end
 
-  defp printRange(starting_verse, ending_verse, verses) when starting_verse > ending_verse do
+  defp print_range(starting_verse, ending_verse, verses) when starting_verse > ending_verse do
     verses
   end
 
-  defp printRange(starting_verse, ending_verse, verses) when starting_verse == ending_verse do
-    verse = printSentence(@ordinals[starting_verse], @verseList[starting_verse])
-    printRange(starting_verse + 1, ending_verse, verses <> verse)
+  defp print_range(starting_verse, ending_verse, verses) when starting_verse == ending_verse do
+    verse = print_sentence(@ordinals[starting_verse], @verseList[starting_verse])
+    print_range(starting_verse + 1, ending_verse, verses <> verse)
   end
 
-  defp printRange(starting_verse, ending_verse, verses) do
-    verse = printSentence(@ordinals[starting_verse], @verseList[starting_verse])
-    printRange(starting_verse + 1, ending_verse, verses <> verse <> "\n")
+  defp print_range(starting_verse, ending_verse, verses) do
+    verse = print_sentence(@ordinals[starting_verse], @verseList[starting_verse])
+    print_range(starting_verse + 1, ending_verse, verses <> verse <> "\n")
   end
 end
