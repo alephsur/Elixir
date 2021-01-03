@@ -44,26 +44,19 @@ defmodule Scrabble do
     acc
   end
 
-  defp get_characters_mapped_values([head|tail], acc) do
-
+  defp get_characters_mapped_values([head | tail], acc) do
     get_characters_mapped_values(tail, acc + get_value_char(head))
-
   end
 
   defp get_value_char(char) do
-
     Map.fetch(@scrabel_values, char) |> get_value_from_map()
-
   end
 
-  defp get_value_from_map(mapped_value) when mapped_value == :error do
+  defp get_value_from_map(:error) do
     0
   end
 
-  defp get_value_from_map(mapped_value) do
-
-    elem(mapped_value,1)
-
+  defp get_value_from_map({:ok, mapped_value}) do
+    mapped_value
   end
-
 end
