@@ -21,15 +21,6 @@ defmodule Pangram do
       |> Enum.uniq()
       |> Enum.filter(fn x-> Enum.member?(lista ,x) end)
       |> List.to_string()
-      |> String.length()
-      |> response_value()
-  end
-
-  defp response_value(value) when value == 26 do
-    true
-  end
-
-  defp response_value(_) do
-    false
+      |> String.length() == 26
   end
 end
