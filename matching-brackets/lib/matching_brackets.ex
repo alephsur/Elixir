@@ -13,15 +13,11 @@ defmodule MatchingBrackets do
     check_string([])
   end
 
-  def check_string([], acc_list) do
-    if acc_list === [] do
-      true
-    else
-      false
-    end
+  defp check_string([], acc_list) do
+    acc_list == []
   end
 
-  def check_string([head|tail], acc_list) do
+  defp check_string([head|tail], acc_list) do
     cond do
       head === List.first(@brackets) -> check_string(tail, acc_list ++ [head] )
       head === List.last(@brackets) && List.last(acc_list) === List.first(@brackets) -> check_string(tail, List.delete_at(acc_list, length(acc_list)-1))

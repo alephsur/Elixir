@@ -17,12 +17,8 @@ defmodule Triangle do
     end
   end
 
-  defp check_sides_equality(a, a) do
-    true
-  end
-
   defp check_sides_equality(a, b) do
-    false
+    a == b
   end
 
   defp check_legal_triangle(a,b,c) do
