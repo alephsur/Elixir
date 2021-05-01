@@ -17,15 +17,15 @@ defmodule FlattenArray do
     process_list(list, [])
   end
 
-  def process_list([], acc_list) do
+  defp process_list([], acc_list) do
     acc_list
   end
 
-  def process_list([head|tail], acc_list) do
+  defp process_list([head|tail], acc_list) do
     cond do
-      is_list(head) -> process_list(tail, process_list(head, acc_list))
+      is_list(head) -> process_list(head, process_list(tail, acc_list))
       head == nil -> process_list(tail, acc_list)
-      true -> process_list(tail, acc_list ++ [head])
+      true -> [head | process_list(tail, acc_list)]
     end
   end
 end
