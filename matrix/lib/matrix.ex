@@ -87,7 +87,7 @@ defmodule Matrix do
     end
   end
 
-  defp analize_vectors([], position, vector) do
+  defp analize_vectors([], _, vector) do
     vector
   end
 
