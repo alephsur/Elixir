@@ -58,13 +58,6 @@ defmodule Phone do
     end
   end
 
-  defp check_exchange_code(number) do
-    cond do
-      Enum.at(number, 3) == "1" || Enum.at(number, 3) == "0" -> ["0","0","0","0","0","0","0","0","0","0"]
-      true -> number
-    end
-  end
-
   defp get_number(number) when length(number) == 11 do
     cond do
       get_first_number(number) == "1" -> get_tail_number(number)
@@ -72,11 +65,18 @@ defmodule Phone do
     end
   end
 
-  defp get_first_number([head|tail]) do
+  defp check_exchange_code(number) do
+    cond do
+      Enum.at(number, 3) == "1" || Enum.at(number, 3) == "0" -> ["0","0","0","0","0","0","0","0","0","0"]
+      true -> number
+    end
+  end
+
+  defp get_first_number([head|_]) do
     head
   end
 
-  defp get_tail_number([head|tail]) do
+  defp get_tail_number([_|tail]) do
     List.to_string(tail)
   end
 
