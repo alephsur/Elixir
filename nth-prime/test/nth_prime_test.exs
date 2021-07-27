@@ -21,7 +21,7 @@ defmodule NthPrimeTest do
     assert Prime.nth(100) == 541
   end
 
-  @tag :pending
+  #@tag :pending
   test "weird case" do
     catch_error(Prime.nth(0))
   end
