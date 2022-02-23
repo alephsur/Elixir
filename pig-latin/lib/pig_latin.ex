@@ -16,62 +16,68 @@ defmodule PigLatin do
   @spec translate(phrase :: String.t()) :: String.t()
 
   def translate(phrase) do
-    phrase |> String.split() |> Enum.map(fn x -> translate_word(x) end) |> Enum.join(" ")
+    phrase
+      |> String.split()
+      |> Enum.map_join(" ",&translate_word/1)
   end
 
-  def translate_word(word) do
+  defp translate_word(word) do
 
     charlist = to_charlist(word)
 
     if List.first(charlist) in [?a, ?e, ?i, ?o, ?u ] do
-      changeStartVowel(word)
+      change_start_vowel(word)
     else
-      changeCharList(word, charlist, 0)
+      change_char_list(word, charlist, 0)
     end
   end
 
-  defp changeStartVowel(phrase) do
+  defp change_start_vowel(phrase) do
     phrase <> "ay"
   end
 
-  defp changeCharList(phrase, [head|tail], acc) when head in  [?x, ?y] do
-    if checkNetxCharConsonant(tail) do
-      phrase <> "ay"
-    else
-      changeCharList(phrase, tail, acc + 1)
+  defp change_char_list(phrase, [head|tail], acc) when head in  [?x, ?y] do
+    cond do
+      check_netx_char_consonant_char(tail) and acc == 0 -> phrase <> "ay"
+      check_netx_char_consonant_char(tail) == false -> change_char_list(phrase, tail, acc + 1)
+      head == ?y -> String.slice(phrase,acc,String.length(phrase)) <> String.slice(phrase,0,acc) <> "ay"
     end
   end
 
-  defp changeCharList(phrase, [head|_], acc) when head in  [?a, ?e, ?i, ?o, ?u ] do
+
+  defp change_char_list(phrase, [head|_], acc) when head in  [?a, ?e, ?i, ?o, ?u, ?y ] do
     String.slice(phrase,acc,String.length(phrase)) <> String.slice(phrase,0,acc) <> "ay"
   end
 
-  defp changeCharList(phrase, [head|tail], acc) when head in [?q] do
-    if checkQchar(tail) == true do
-      changeCharList(phrase, tail, acc + 2)
+  defp change_char_list(phrase, [?q|tail], acc) do
+    if check_q_char(tail) == true do
+      change_char_list(phrase, tail, acc + 2)
     else
-      changeCharList(phrase, tail, acc + 1)
+      change_char_list(phrase, tail, acc + 1)
     end
   end
 
-  defp changeCharList(phrase, [_head|tail], acc) do
-    changeCharList(phrase, tail, acc + 1)
+  defp change_char_list(phrase, [_head|tail], acc) do
+    change_char_list(phrase, tail, acc + 1)
   end
 
-  defp checkQchar([head|_]) when head in [?u] do
+  defp check_q_char([?u|_]) do
     true
   end
 
-  defp checkQchar([_head|_]) do
+  defp check_q_char([_head|_]) do
     false
   end
 
-  defp checkNetxCharConsonant([head|_]) when head not in  [?a, ?e, ?i, ?o, ?u ] do
+  defp check_netx_char_consonant_char([head|_]) when head not in  [?a, ?e, ?i, ?o, ?u ] do
     true
   end
 
-  defp checkNetxCharConsonant([_head|_]) do
+  defp check_netx_char_consonant_char([_head|_]) do
     false
   end
 
+  defp check_netx_char_consonant_char([]) do
+    true
+  end
 end

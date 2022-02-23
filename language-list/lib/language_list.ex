@@ -8,12 +8,12 @@ defmodule LanguageList do
   end
 
   def remove(list) do
-    [head|tail] = list
+    [_|tail] = list
     tail
   end
 
   def first(list) do
-    [head|tail] = list
+    [head|_] = list
     head
   end
 
@@ -21,10 +21,11 @@ defmodule LanguageList do
     length(list)
   end
 
-  def exciting_list?(list) do
+  def exciting_list?([]) do false end
+  def exciting_list?([head|tail]) do
     cond do
-      Enum.member?(list,"Elixir") -> true
-      true -> false
+      head == "Elixir" -> True
+      true -> exciting_list?(tail)
     end
   end
 end

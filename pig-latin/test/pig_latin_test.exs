@@ -127,6 +127,10 @@ defmodule PigLatinTest do
     test "word beginning with xb" do
       assert PigLatin.translate("xbot") == "xbotay"
     end
+
+    test "word beginning with xb1" do
+      assert PigLatin.translate("rhythm") == "ythmrhay"
+    end
   end
 
   describe "phrases are translated" do
